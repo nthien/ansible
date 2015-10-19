@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Ansible : example
 
 1. /etc/hosts: ip servers
@@ -9,4 +10,9 @@ Install ansible: http://blog.vccloud.vn/ansible-cai-dat-va-cau-hinh/
 	
 	yum install ansible or apt-get install ansible
 	configure ssh with no password
+=======
+create user login ssh (authen key)
+
+grant privileges via sudo
+>>>>>>> parent of 01c64c8... edit readme
 
