@@ -1,19 +1,17 @@
 ---
 - hosts: dev-servers
+  vars:
+	user1: test1
+	user2: test2
   tasks:
   - name: group admin sudo no password (search and replace)
     lineinfile: dest=/etc/sudoers regexp='^%admin' line='%admin ALL=(ALL) NOPASSWD:ALL'
   - name: delete line if exits
-    lineinfile: dest=/etc/sudoers regexp='^test2' state=absent
-  - group: name=admin state=present
+    lineinfile: dest=/etc/sudoers regexp='^${user1}' state=absent
+  - name: craete group admin
+    group: name=admin state=present
   - name: add group admin
-    user: name=test groups=admin append=yes
+    user: name=${user1} groups=admin append=yes
   - name: add user to group admin
-    user: name=test2 groups=admin append=yes
-  - name: add user to group admin
-    user: name=test3 groups=admin append=yes
-  - name: add user to group admin
-    user: name=test4 groups=admin append=yes
-  - name: add user to group admin
-    user: name=test5 groups=admin append=yes
+    user: name=${user2} groups=admin append=yes
 
