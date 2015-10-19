@@ -1,7 +1,7 @@
 ---
 - hosts: dev-servers
   tasks:
-  - name: sudo groupd admin nopass (search and replace)
+  - name: group admin sudo no password (search and replace)
     lineinfile: dest=/etc/sudoers regexp='^%admin' line='%admin ALL=(ALL) NOPASSWD:ALL'
   - name: delete line if exits
     lineinfile: dest=/etc/sudoers regexp='^test2' state=absent
