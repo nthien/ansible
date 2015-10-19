@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  tasks:
+  - lineinfile: dest=/etc/sudoers regexp='^%admin' line='%admin ALL=(ALL) NOPASSWD:ALL'
+  - lineinfile: dest=/etc/sudoers regexp='^nhandt2' state=absent
+  - lineinfile: dest=/etc/sudoers regexp='^hiennt7' state=absent
+  - lineinfile: dest=/etc/sudoers regexp='^tripm4' state=absent
+  - lineinfile: dest=/etc/sudoers regexp='^vubq' state=absent
+  - lineinfile: dest=/etc/sudoers regexp='^dungnc' state=absent
+  - group: name=admin state=present
+  - user: name=hiennt7 groups=admin append=yes
+  - user: name=nhandt2 groups=admin append=yes
+  - user: name=tripm4 groups=admin append=yes
+  - user: name=dungnc groups=admin append=yes
+  - user: name=vubq groups=admin append=yes
+

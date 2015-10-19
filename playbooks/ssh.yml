@@ -1,0 +1,63 @@
+---
+- hosts: localhost
+  tasks:
+  - name: create user hiennt7
+    user: name=hiennt7 shell=/bin/bash
+
+  - name: create user nhandt2
+    user: name=nhandt2 shell=/bin/bash
+
+  - name: create user dungnc
+    user: name=dungnc shell=/bin/bash
+
+  - name: create user tripm4
+    user: name=tripm4 shell=/bin/bash
+
+  - name: create user vubq
+    user: name=vubq shell=/bin/bash
+
+  - name: create ssh directory hiennt7
+    file: path=/home/hiennt7/.ssh state=directory
+
+  - name: create ssh directory nhandt2
+    file: path=/home/nhandt2/.ssh state=directory
+
+  - name: create ssh directory dungnc
+    file: path=/home/dungnc/.ssh state=directory
+
+  - name: create ssh directory tripm4
+    file: path=/home/tripm4/.ssh state=directory
+
+  - name: create ssh directory vubq
+    file: path=/home/vubq/.ssh state=directory
+
+  - name: copy ssh key hiennt7
+    copy: src=/soft/hiennt7/authorized_keys dest=/home/hiennt7/.ssh/
+
+  - name: copy ssh key nhandt2
+    copy: src=/soft/nhandt2/authorized_keys dest=/home/nhandt2/.ssh/
+
+  - name: copy ssh key tripm4
+    copy: src=/soft/tripm4/authorized_keys dest=/home/tripm4/.ssh/
+
+  - name: copy ssh key dungnc
+    copy: src=/soft/dungnc/authorized_keys dest=/home/dungnc/.ssh/
+
+  - name: copy ssh key vuq
+    copy: src=/soft/vubq/authorized_keys dest=/home/vubq/.ssh/
+
+  - name: change ownership hiennt7
+    file: path=/home/hiennt7/ owner=hiennt7 group=hiennt7 state=directory recurse=yes
+
+  - name: change ownership nhandt2
+    file: path=/home/nhandt2/ owner=nhandt2 group=nhandt2 state=directory recurse=yes
+
+  - name: change ownership tripm4
+    file: path=/home/tripm4/ owner=tripm4 group=tripm4 state=directory recurse=yes
+
+  - name: change ownership dungnc
+    file: path=/home/dungnc/ owner=dungnc group=dungnc state=directory recurse=yes
+
+  - name: change ownership vubq
+    file: path=/home/vubq/ owner=vubq group=vubq state=directory recurse=yes
+
