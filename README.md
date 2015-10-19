@@ -1,10 +1,9 @@
-Ansible : create user + grant privileges
+Ansible : example
 
 1. /etc/hosts: ip servers
-2. playbook: ./playbook/ssh.yml and ./playbook/sudoers.yml
+2. playbook (example)
 3. run playbook
-	ansible-playbook ./playbook/ssh.yml
-	ansible-playbook ./playbook/sudoers.yml
+	ansible-playbook playbook
 	
 Install ansible: http://blog.vccloud.vn/ansible-cai-dat-va-cau-hinh/
 	
