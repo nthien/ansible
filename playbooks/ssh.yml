@@ -1,63 +1,63 @@
 ---
-- hosts: localhost
+- hosts: dev-servers
   tasks:
-  - name: create user hiennt7
-    user: name=hiennt7 shell=/bin/bash
+  - name: create user test
+    user: name=test shell=/bin/bash
 
-  - name: create user nhandt2
-    user: name=nhandt2 shell=/bin/bash
+  - name: create user test2
+    user: name=test2 shell=/bin/bash
 
-  - name: create user dungnc
-    user: name=dungnc shell=/bin/bash
+  - name: create user test3
+    user: name=test3 shell=/bin/bash
 
-  - name: create user tripm4
-    user: name=tripm4 shell=/bin/bash
+  - name: create user test4
+    user: name=test4 shell=/bin/bash
 
-  - name: create user vubq
-    user: name=vubq shell=/bin/bash
+  - name: create user test5
+    user: name=test5 shell=/bin/bash
 
-  - name: create ssh directory hiennt7
-    file: path=/home/hiennt7/.ssh state=directory
+  - name: create ssh directory test
+    file: path=/home/test/.ssh state=directory
 
-  - name: create ssh directory nhandt2
-    file: path=/home/nhandt2/.ssh state=directory
+  - name: create ssh directory test2
+    file: path=/home/test2/.ssh state=directory
 
-  - name: create ssh directory dungnc
-    file: path=/home/dungnc/.ssh state=directory
+  - name: create ssh directory test3
+    file: path=/home/test3/.ssh state=directory
 
-  - name: create ssh directory tripm4
-    file: path=/home/tripm4/.ssh state=directory
+  - name: create ssh directory test4
+    file: path=/home/test4/.ssh state=directory
 
-  - name: create ssh directory vubq
-    file: path=/home/vubq/.ssh state=directory
+  - name: create ssh directory test5
+    file: path=/home/test5/.ssh state=directory
 
-  - name: copy ssh key hiennt7
-    copy: src=/soft/hiennt7/authorized_keys dest=/home/hiennt7/.ssh/
+  - name: copy ssh key test
+    copy: src=/soft/test/authorized_keys dest=/home/test/.ssh/
 
-  - name: copy ssh key nhandt2
-    copy: src=/soft/nhandt2/authorized_keys dest=/home/nhandt2/.ssh/
+  - name: copy ssh key test2
+    copy: src=/soft/test2/authorized_keys dest=/home/test2/.ssh/
 
-  - name: copy ssh key tripm4
-    copy: src=/soft/tripm4/authorized_keys dest=/home/tripm4/.ssh/
+  - name: copy ssh key test4
+    copy: src=/soft/test4/authorized_keys dest=/home/test4/.ssh/
 
-  - name: copy ssh key dungnc
-    copy: src=/soft/dungnc/authorized_keys dest=/home/dungnc/.ssh/
+  - name: copy ssh key test3
+    copy: src=/soft/test3/authorized_keys dest=/home/test3/.ssh/
 
   - name: copy ssh key vuq
-    copy: src=/soft/vubq/authorized_keys dest=/home/vubq/.ssh/
+    copy: src=/soft/test5/authorized_keys dest=/home/test5/.ssh/
 
-  - name: change ownership hiennt7
-    file: path=/home/hiennt7/ owner=hiennt7 group=hiennt7 state=directory recurse=yes
+  - name: change ownership test
+    file: path=/home/test/ owner=test group=test state=directory recurse=yes
 
-  - name: change ownership nhandt2
-    file: path=/home/nhandt2/ owner=nhandt2 group=nhandt2 state=directory recurse=yes
+  - name: change ownership test2
+    file: path=/home/test2/ owner=test2 group=test2 state=directory recurse=yes
 
-  - name: change ownership tripm4
-    file: path=/home/tripm4/ owner=tripm4 group=tripm4 state=directory recurse=yes
+  - name: change ownership test4
+    file: path=/home/test4/ owner=test4 group=test4 state=directory recurse=yes
 
-  - name: change ownership dungnc
-    file: path=/home/dungnc/ owner=dungnc group=dungnc state=directory recurse=yes
+  - name: change ownership test3
+    file: path=/home/test3/ owner=test3 group=test3 state=directory recurse=yes
 
-  - name: change ownership vubq
-    file: path=/home/vubq/ owner=vubq group=vubq state=directory recurse=yes
+  - name: change ownership test5
+    file: path=/home/test5/ owner=test5 group=test5 state=directory recurse=yes
 
