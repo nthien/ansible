@@ -20,9 +20,9 @@
 - name: copy source build
   copy: src=soft dest=/ 
 - name: copy nginx.conf
-  action: template src=nginx.conf.j2 dest=/soft/proxy/nginx/conf/nginx.conf
+  action: template src=nginx.conf.j2 dest=/soft/proxy/nginx.conf
 - name: copy vhost
-  action: template src=vhost.wordpress.conf.j2 dest=/soft/proxy/nginx/conf/vhost/{{ item.log }}.conf
+  action: template src=vhost.wordpress.conf.j2 dest=/soft/proxy/vhost/{{ item.log }}.conf
   with_items:
     - { domain: 'test01.vng.com.vn', log: 'test01', root: '/data/www/test01', crt: "test01.pem", key: "test01.key" }
     - { domain: 'test02.vng.com.vn', log: 'test02', root: '/data/www/test01', crt: "test02.pem", key: "test02.key" }
