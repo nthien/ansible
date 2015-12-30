@@ -7,9 +7,7 @@
 - name: start container db
   docker:
       name: db
-      registry: 10.240.0.2:5000
-      insecure_registry: yes
-      image: 10.240.0.2:5000/db:v2
+      image: db
       detach: True
       state: started
       volumes: /var/lib/mysql:/var/lib/mysql

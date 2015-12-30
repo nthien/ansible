@@ -7,14 +7,12 @@
 - name: start container proxy
   docker:
       name: proxy
-      registry: 10.240.0.2:5000
-      insecure_registry: yes
-      image: 10.240.0.2:5000/proxy:v2
+      image: proxy
       detach: True
       state: started
       volumes: /data/www:/data/www
       extra_hosts:
-        click.vng.com.vn: 10.40.96.10
+	test01: 1.2.3.4
       ports:
       - 80:80
       - 443:443
@@ -28,15 +26,12 @@
 - name: start container apps
   docker:
       name: apps
-      registry: 10.240.0.2:5000
-      insecure_registry: yes
-      image: 10.240.0.2:5000/apps
+      image: apps
       detach: True
       state: started
       volumes: /data/www:/data/www
       extra_hosts:
-        click.vng.com.vn: 10.40.96.10
-        mis-esb.vng.com.vn: 10.40.58.100
+	test01: 1.2.3.4
       ports:
       - 21:21
       - 9000:9000
