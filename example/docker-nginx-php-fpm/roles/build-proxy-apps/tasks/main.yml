@@ -1,3 +1,5 @@
 ---
 - name: check or build images proxy
   docker_image: path="/soft/proxy" name="proxy" state=build 
+- name: check or build images apps
+  docker_image: path="/soft/php-fpm" name="apps" state=build
