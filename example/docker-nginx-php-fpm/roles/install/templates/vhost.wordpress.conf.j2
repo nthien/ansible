@@ -1,0 +1,109 @@
+limit_req_zone  $binary_remote_addr  zone=one:100m   rate=5r/s;
+limit_req_status 429;
+limit_req_log_level warn;
+server
+{
+	listen 80;
+	server_name {{ item.domain }};
+	return 302 https://{{ item.domain }}$request_uri;
+}
+server
+{
+        listen 80;
+	server_name {{ item.domain }};
+        error_log /var/log/nginx/{{ item.log }}_error.log;
+        access_log /var/log/nginx/{{ item.log }}_access.log;
+	ssl on;
+	ssl_certificate vhost/{{ item.crt }};
+        ssl_certificate_key vhost/{{ item.key }};
+        ssl_session_timeout 5m;
+	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+	ssl_session_cache shared:SSL:20m;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+
+        root    {{ item.root }};
+        index index.php index.html index.htm;
+	
+	proxy_http_version 1.1;
+	proxy_set_header Connection "";
+	add_header X-Cache $upstream_cache_status;
+
+        ###cache config
+        set $skip_cache 0;
+        if ($request_method = POST) {
+                set $skip_cache 1;
+        }
+	if ($request_uri ~* "(/wp-admin/|/xmlrpc.php|/wp-(app|cron|login|register|mail).php|wp-.*.php|/feed/|index.php|wp-comments-popup.php|wp-links-opml.php|wp-locations.php|sitemap(_index)?.xml|[a-z0-9_-]+-sitemap([0-9]+)?.xml)") {  
+		set $skip_cache 1;  
+	}
+	if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_logged_in") {
+               set $skip_cache 1;
+       }
+	location / {
+                if ($request_method !~ ^(GET|HEAD|POST)$ ) {    return 444;     }
+		limit_req   zone=one  burst=3  nodelay;
+                try_files $uri $uri/ /index.php?$query_string;
+        }
+        location ~ \.php$ {
+		limit_req   zone=one  burst=3  nodelay;
+                try_files $uri =404;
+                include fastcgi_params;
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                fastcgi_pass php;
+		fastcgi_keep_conn on;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+                fastcgi_cache_bypass $skip_cache;
+                fastcgi_no_cache $skip_cache;
+                fastcgi_cache vng;
+                fastcgi_cache_valid  48h;
+                fastcgi_index index.php;
+        }
+        location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$ {
+		try_files $uri =404
+                add_header Pragma "public";
+                add_header Cache-Control "public";
+                access_log off;
+                log_not_found off;
+
+        }
+        location ~ /\.ht {
+                access_log off;
+                log_not_found off;
+                deny all;
+        }
+	location ~ /(\.|wp-config.php|readme.html|license.txt) { deny all; }
+        if ($http_user_agent ~* (Baiduspider|webalta|nikto|wkito|pikto|scan|acunetix|morfeus|webcollage|youdao) ) 
+	{
+        	return 401;
+    	}
+	if ($http_user_agent ~* (HTTrack|clshttp|archiver|loader|email|harvest|extract|grab|miner) ) 
+	{
+        	return 401;
+    	}
+	location ~* /(?:uploads|files)/.*\.php$ 
+	{
+                deny all;
+        }
+        location ~* \.(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|theme|tpl(\.php)?|xtmpl)$|^(\..*|Entries.*|Repository|Root|Tag|Template)$|\.php_
+        {
+                return 444;
+        }
+        location ~* \.(pl|cgi|py|sh|lua)\$ 
+	{
+                return 444;
+        }
+        location ~* (roundcube|webdav|smtp|http\:|soap|w00tw00t) 
+	{
+                return 444;
+        }
+	location ~ /purge(/.*) {
+	    fastcgi_cache_purge vng "$scheme$request_method$host$1";
+	}
+	location /connect {
+        	stub_status on;
+        	access_log   off;
+        	allow all;
+   	}
+
+}

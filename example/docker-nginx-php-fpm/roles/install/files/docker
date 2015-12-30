@@ -1,0 +1,21 @@
+# /etc/sysconfig/docker
+#
+# Other arguments to pass to the docker daemon process
+# These will be parsed by the sysv initscript and appended
+# to the arguments list passed to docker -d
+
+other_args="--dns 8.8.8.8 --insecure-registry 10.240.0.2:5000"
+DOCKER_CERT_PATH=/etc/docker
+
+#HTTP_PROXY="http://10.30.15.68:8888"
+#HTTPS_PROXY="http://10.30.15.68:8888"
+#http_proxy="$HTTP_PROXY"
+#https_proxy="$HTTPS_PROXY"
+
+# Resolves: rhbz#1176302 (docker issue #407)
+DOCKER_NOWARN_KERNEL_VERSION=1
+
+# Location used for temporary files, such as those created by
+# # docker load and build operations. Default is /var/lib/docker/tmp
+# # Can be overriden by setting the following environment variable.
+# # DOCKER_TMPDIR=/var/tmp

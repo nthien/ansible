@@ -1,0 +1,20 @@
+---
+- name: config iptables
+  action: template src=iptables.j2 dest=/etc/sysconfig/iptables
+- name: restart iptables
+  service: name=iptables state=restarted
+- name: restart docker
+  service: name=docker state=restarted
+- name: "Disable GSSAPIAuthentication for SSH login"
+  lineinfile:
+    regexp: "^GSSAPIAuthentication"
+    line: "GSSAPIAuthentication no"
+    state: "present"
+    dest: "/etc/ssh/sshd_config"
+- name: "Disable reverse DNS lookup on SSH login"
+  lineinfile:
+    line: "useDNS no"
+    state: "present"
+    dest: "/etc/ssh/sshd_config"
+- name: restart ssh
+  service: name=sshd state=restarted

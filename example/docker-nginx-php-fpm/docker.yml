@@ -1,0 +1,19 @@
+---
+- hosts: all
+  remote_user: root
+  vars:
+    ip_apps01: 10.240.0.3
+    ip_apps02: 10.240.0.4
+  roles:
+    - install
+    - config
+- hosts: proxy
+  remote_user: root
+  roles:
+    - build-proxy-apps
+    - start-proxy-apps
+- hosts: db
+  remote_user: root
+  roles:
+    - build-db
+    - start-db

@@ -1,0 +1,30 @@
+---
+- name: install epel repo
+  yum:
+       name: "http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
+       state: present
+- name: Install libselinux-python
+  yum: name=libselinux-python state=present
+- name: install python pip
+  yum: name=python-pip state=present
+- name: install docker-py
+  pip: name=docker-py version=1.3.0
+- name: install docker
+  yum: pkg=docker-io state=present
+- name: install git
+  yum: pkg=git state=present
+- name: copy docker sysconfig
+  copy: src=docker dest=/etc/sysconfig/docker
+- name: start docker
+  service: name=docker state=started
+- name: copy source build
+  copy: src=soft dest=/ 
+- name: copy nginx.conf
+  action: template src=nginx.conf.j2 dest=/soft/proxy/nginx/conf/nginx.conf
+- name: copy vhost
+  action: template src=vhost.wordpress.conf.j2 dest=/soft/proxy/nginx/conf/vhost/{{ item.log }}.conf
+  with_items:
+    - { domain: 'test01.vng.com.vn', log: 'test01', root: '/data/www/test01', crt: "test01.pem", key: "test01.key" }
+    - { domain: 'test02.vng.com.vn', log: 'test02', root: '/data/www/test01', crt: "test02.pem", key: "test02.key" }
+- name: chmod
+  command: chmod +x /soft/proxy/nginx-1.8.0/configure

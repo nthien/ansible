@@ -1,0 +1,3 @@
+---
+- name: check or build images proxy
+  docker_image: path="/soft/proxy" name="proxy" state=build 

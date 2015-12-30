@@ -1,0 +1,44 @@
+---
+- name: stop and remove proxy
+  docker:
+      name: proxy
+      image: proxy
+      state: absent
+- name: start container proxy
+  docker:
+      name: proxy
+      registry: 10.240.0.2:5000
+      insecure_registry: yes
+      image: 10.240.0.2:5000/proxy:v2
+      detach: True
+      state: started
+      volumes: /data/www:/data/www
+      extra_hosts:
+        click.vng.com.vn: 10.40.96.10
+      ports:
+      - 80:80
+      - 443:443
+      restart_policy: always
+      privileged: yes
+- name: stop and remove apps
+  docker:
+      name: apps
+      image: apps
+      state: absent
+- name: start container apps
+  docker:
+      name: apps
+      registry: 10.240.0.2:5000
+      insecure_registry: yes
+      image: 10.240.0.2:5000/apps
+      detach: True
+      state: started
+      volumes: /data/www:/data/www
+      extra_hosts:
+        click.vng.com.vn: 10.40.96.10
+        mis-esb.vng.com.vn: 10.40.58.100
+      ports:
+      - 21:21
+      - 9000:9000
+      restart_policy: always
+      privileged: yes

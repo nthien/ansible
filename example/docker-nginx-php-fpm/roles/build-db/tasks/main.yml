@@ -1,0 +1,3 @@
+---
+- name: check or build images db
+  docker_image: path="/soft/mysql" name="db" state=build

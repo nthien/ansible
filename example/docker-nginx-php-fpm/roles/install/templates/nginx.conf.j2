@@ -1,0 +1,81 @@
+user www-data www-data;
+worker_processes {{ ansible_processor_cores }};
+#worker_cpu_affinity 0001 0010 ;
+worker_rlimit_nofile 50000;
+error_log  /var/log/nginx/error.log;
+pid        /var/run/nginx.pid;
+events
+{
+        use epoll;
+        worker_connections  50000;
+	multi_accept on;
+	accept_mutex off;
+}
+
+
+http
+{
+	#set_real_ip_from  10.79.0.5;
+     	#real_ip_header    X-Forwarded-For; 
+     	#real_ip_recursive on;
+	server_name_in_redirect off;
+	server_names_hash_max_size 2048;
+        server_names_hash_bucket_size 256;
+	include /proxy/nginx/conf/mime.types;
+        default_type application/octet-stream;
+        log_format main $remote_addr " $http_x_forwarded_for" " [$time_local]" " $request" " $status" " $body_bytes_sent" " $http_referer" " $http_user_agent";
+        access_log off;
+        error_log /var/log/nginx/error.log;
+        log_not_found on;
+        sendfile on;
+        tcp_nopush on;
+        server_tokens off;
+        keepalive_timeout  10;
+	keepalive_requests 500;
+        gzip on;
+        gzip_comp_level 2;
+	gzip_buffers  4 32k;
+	gzip_proxied     expired no-cache no-store private auth;
+        gzip_min_length 1000;
+	gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript application/atom+xml application/rtf;
+	gzip_disable msie6;
+
+	ignore_invalid_headers on;
+	client_header_timeout  3m;
+        client_body_timeout 3m;
+        send_timeout     3m;
+        reset_timedout_connection on;
+        connection_pool_size  256;
+        client_header_buffer_size 256k;
+        large_client_header_buffers 4 256k;
+        request_pool_size  32k;
+        output_buffers   4 32k;
+        postpone_output  1460;
+	client_max_body_size 100m;
+	#client_body_temp_path /dev/shm/body 1 2;
+	#proxy_cache_path /dev/shm/cached levels=2:2 keys_zone=global:1024m inactive=4h max_size=2000m;	
+	#proxy_temp_path   /dev/shm/proxy_temp_dir;
+	fastcgi_cache_path /dev/cached levels=1:2 keys_zone=vng:4096m inactive=48h;
+	fastcgi_cache_key "$scheme$request_method$host$request_uri";
+	fastcgi_cache_use_stale error timeout invalid_header http_500;
+	fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
+
+upstream php
+{
+	ip_hash;
+	server {{ ip_apps01 }}:9000 weight=1 max_fails=1 fail_timeout=5s;
+	server {{ ip_apps02 }}:9000 weight=1 max_fails=1 fail_timeout=5s;
+	keepalive 64;
+}
+
+resolver_timeout 1s; 
+# file caching 
+open_file_cache max=50000 inactive=20s; 
+open_file_cache_valid 30s; 
+open_file_cache_min_uses 2; 
+open_file_cache_errors off; 
+include "/proxy/nginx/conf/vhost/*.conf";
+}
+daemon off;
+
+
