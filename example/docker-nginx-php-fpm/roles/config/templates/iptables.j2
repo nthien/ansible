@@ -10,16 +10,7 @@
 ###docker
 -A INPUT -s 172.17.0.0/24 -p tcp -m tcp -j ACCEPT 
 ###app02
--A INPUT -s 10.40.96.11/32 -p tcp -m tcp -j ACCEPT 
-##SDK
--A INPUT -s 10.30.15.188/32 -p tcp -m tcp --dport 10050 -m state --state NEW -j ACCEPT 
--A INPUT -s 10.30.15.177/32 -p tcp -m tcp --dport 10050 -m state --state NEW -j ACCEPT 
--A INPUT -s 10.30.15.199/32 -p tcp -m tcp --dport 10050 -m state --state NEW -j ACCEPT 
--A INPUT -s 10.30.15.211/32 -p tcp -m tcp --dport 10050 -m state --state NEW -j ACCEPT 
--A INPUT -s 10.30.15.222/32 -p tcp -m tcp --dport 10050 -m state --state NEW -j ACCEPT 
--A INPUT -s 10.30.15.27/32 -p tcp -m tcp --dport 10050 -m state --state NEW -j ACCEPT 
--A INPUT -s 10.30.49.100/32 -p tcp -m tcp --dport 9997 -m state --state NEW -j ACCEPT 
--A INPUT -s 10.30.49.200/32 -p tcp -m tcp --dport 9997 -m state --state NEW -j ACCEPT 
+-A INPUT -s 1.2.3.4/32 -p tcp -m tcp -j ACCEPT 
 -A INPUT -p tcp -m tcp -j LOG --log-prefix "DROP " 
 -A INPUT -p tcp -m tcp -j DROP 
 -A FORWARD -o docker0 -j DOCKER 
