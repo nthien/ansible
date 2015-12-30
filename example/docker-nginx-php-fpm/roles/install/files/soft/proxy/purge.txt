@@ -1,5 +1,0 @@
-<?php
-  array_map('unlink', glob("/dev/shm/*/*/*"));
-  array_map('rmdir', glob("/dev/shm/*/*"));
-  array_map('rmdir', glob("/dev/shm/*"));
- ?>

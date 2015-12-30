@@ -3,7 +3,6 @@ MAINTAINER HienNT
 
 #ENV http_proxy http://10.30.15.68:8888
 #ENV https_proxy http://10.30.15.68:8888
-#ENV no_proxy click.vcdn.vn
 
 # Surpress Upstart errors/warning
 RUN dpkg-divert --local --rename --add /sbin/initctl

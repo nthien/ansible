@@ -1,2 +1,0 @@
-sudo docker run --name mysql --restart=always -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=test -e MYSQL_USER=test -e MYSQL_PASSWORD=123456 -v /soft/db/mysql:/var/lib/mysql -d mysql:5.5
-sudo docker run --name web --restart=always -p 80:80 -p 443:443 -p 21:21 -v /home/hiennt/docker/laravel:/data/www --privileged=true --ulimit nofile=10000:10000 -d laravel
